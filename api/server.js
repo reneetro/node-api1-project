@@ -23,20 +23,28 @@ server.get('/api/users/:id', (req, res) => {
 })
 
 server.post('/api/users', (req, res) => {
-
         User.insert(req.body).then(result => {
             if(result.name && result.bio){
-                res.status(201).json(result)
+                res.status(201).json(result);
             } else {
                 res.status(400).json({ message: 'provide name and bio'})
-
             }
         })
-
-    
 })
 
-
+server.put('/api/users/:id', (req, res) => {
+    User.update(req.params.id, req.body).then(result => {
+        if(result == null){
+            res.status(404).json({message: 'does not exist'});
+            return;
+        }
+        if(result.name && result.bio){
+            res.json(result)
+        } else {
+            res.status(400).json({ message: 'provide name and bio'})
+        }
+    })
+})
 
 
 module.exports = server; // EXPORT YOUR SERVER instead of {}
