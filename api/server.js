@@ -22,7 +22,19 @@ server.get('/api/users/:id', (req, res) => {
     })
 })
 
+server.post('/api/users', (req, res) => {
 
+        User.insert(req.body).then(result => {
+            if(result.name && result.bio){
+                res.status(201).json(result)
+            } else {
+                res.status(400).json({ message: 'provide name and bio'})
+
+            }
+        })
+
+    
+})
 
 
 
